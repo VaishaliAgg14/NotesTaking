@@ -27,12 +27,10 @@ function App() {
   const userDetails = auth.currentUser;
 
   useEffect(() => {
-    if(userDetails?.uid !== null) {
+    if(userDetails?.uid !== undefined) {
       setIsLogin(true)
     }
-  } , [userDetails]);
-
-
+  } , [userDetails?.uid]);
 
   return (
     <div>
