@@ -27,10 +27,10 @@ function App() {
   const userDetails = auth.currentUser;
 
   useEffect(() => {
-    if (userDetails?.uid === null ) {
-      setIsLogin(true);
+    if(userDetails?.uid !== null) {
+      setIsLogin(true)
     }
-  } , [userDetails ])
+  } , [userDetails]);
 
 
 
@@ -42,6 +42,7 @@ function App() {
       <Route path="/:folderId" exact element = {<ShowNotes userId = {userDetails?.uid} />} />
         <Route path='/register' exact element={user && isLogin ? 
           <div>
+            <AddNotesButton userId = {userDetails?.uid}  />
           <FolderButton userId = {userDetails?.uid} />
           <ShowFolder userId = {userDetails?.uid}  />
         </div> : <SignInForm onLogin = {(props) => {setIsLogin(props)}} />} />
