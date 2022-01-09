@@ -19,7 +19,7 @@ import { useParams , useRouteMatch} from 'react-router-dom';
 function App() {
   
 
-  const [isLogin , setIsLogin] = useState(true);
+  const [isLogin , setIsLogin] = useState(false);
   // const ctx = useContext(UserContext)
   // const isLogin = ctx.isLogin;
   const user = useAuthState(auth);
@@ -28,7 +28,7 @@ function App() {
 
   useEffect(() => {
     if (userDetails?.uid === null ) {
-      setIsLogin(false);
+      setIsLogin(true);
     }
   } , [userDetails ])
 
