@@ -5,18 +5,20 @@ import {useAuthState} from 'react-firebase-hooks/auth';
 import UserContext from '../store/user-context';
 
 function AddNotes(props) {
-    const ctx = useContext(UserContext)
     const [note, setNote] = useState('');
     const [ title , setTitle ] = useState('');
     const [ folderName , setFolderName ] = useState('');
 
         const addNoteHandler = async (e) => {
         e.preventDefault();
+        const folderData = await db.collection('folders').where('title', "==" ,folderName).get();
+        const folderId = folderData.docs[0].id;
         await db.collection('notes').add({
             userId: props.userId,
             title: title,
             note: note,
             folderName: folderName,
+            folderId: folderId,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         })
         setNote('');
@@ -86,6 +88,14 @@ function AddNotes(props) {
                     required>
                     Add Note
                   </button>
+                  <div className="px-3">
+                  <button
+                    onClick = {props.showNote}
+                    className="p-3 border-2 border-blue-300 text-blue-400 hover:bg-blue-100"
+                  >
+                    Cancel
+                  </button>
+                  </div>
                 </div>
               </form>
             </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react'
-import AddNotes from './components/AddNotes';
+import AddNotesButton from './components/AddNotesButton';
 import Login from './components/Login';
 import SignInForm from './components/SignInForm';
 import ShowNotes from './components/ShowNotes';
@@ -11,16 +11,15 @@ import {auth} from './firebase';
 
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
-import Folder from './components/Folder';
+import FolderButton from './components/AddFolderButton';
 import ShowFolder from './components/ShowFolder';
-import { useFolder } from './hooks/useFolder';
-import { useParams} from 'react-router-dom';
+// import { useFolder } from './hooks/useFolder';
+import { useParams , useRouteMatch} from 'react-router-dom';
 
 function App() {
-  const {id} = useParams();
-  console.log(id);
+  
 
-  const [isLogin , setIsLogin] = useState(false);
+  const [isLogin , setIsLogin] = useState(true);
   // const ctx = useContext(UserContext)
   // const isLogin = ctx.isLogin;
   const user = useAuthState(auth);
@@ -28,31 +27,32 @@ function App() {
   const userDetails = auth.currentUser;
 
   useEffect(() => {
-    if (userDetails?.uid !== null ) {
-      setIsLogin(true);
+    if (userDetails?.uid === null ) {
+      setIsLogin(false);
     }
-  } , [userDetails])
+  } , [userDetails ])
+
+
 
   return (
+    <div>
     <DndProvider backend={HTML5Backend}>
       <NavBar user = {user} onLogout={(props) => {setIsLogin(props)}} isLogin={isLogin} />
       <Routes>
+      <Route path="/:folderId" exact element = {<ShowNotes userId = {userDetails?.uid} />} />
         <Route path='/register' exact element={user && isLogin ? 
           <div>
-          <Folder userId = {userDetails?.uid} />
-          <ShowFolder userId = {userDetails?.uid}   />
+          <FolderButton userId = {userDetails?.uid} />
+          <ShowFolder userId = {userDetails?.uid}  />
         </div> : <SignInForm onLogin = {(props) => {setIsLogin(props)}} />} />
         <Route path='/' exact element={user && isLogin ? <div>
-          <AddNotes userId = {userDetails?.uid}  />
-          <Folder userId = {userDetails?.uid} />
-          <ShowFolder userId = {userDetails?.uid} />
+          <AddNotesButton userId = {userDetails?.uid}  />
+          <FolderButton userId = {userDetails?.uid} />
+          <ShowFolder userId = {userDetails?.uid}  />
         </div> : <Login onLogin = {(props) => {setIsLogin(props)}}  />} /> 
-        <Route path='/:id' exact element={
-        <div>
-          <ShowNotes userId = {userDetails?.uid}  />
-        </div>} />
       </Routes>
     </DndProvider>
+    </div>
   );
 }
 export default App;

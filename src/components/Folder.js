@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { db } from "../firebase";
 
 
-function Folder(props , currentFolder) {
+function Folder(props) {
   const [folderName, setFolderName] = useState("");
   const folderAddHandler = async (e) => {
     e.preventDefault();
     await db.collection("folders").add({
       title: folderName,
       userId: props.userId,
-      childNotes: []
     });
+    console.log('added')
     setFolderName("");
   };
 
@@ -47,6 +47,15 @@ function Folder(props , currentFolder) {
                   >
                     Add Folder
                   </button>
+                  <div className = 'px-3' >
+                  <button
+                    onClick = {props.showFolderHandler}
+                    className="p-3 border-2 border-blue-300 text-blue-400 hover:bg-blue-100"
+                    required
+                  >
+                    Cancel
+                  </button>
+                  </div>
                 </div>
               </form>
             </div>
