@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react'
-import AddNotesButton from './components/AddNotesButton';
+import AddNotes from './components/AddNotes';
 import Login from './components/Login';
 import SignInForm from './components/SignInForm';
 import ShowNotes from './components/ShowNotes';
@@ -11,10 +11,9 @@ import {auth} from './firebase';
 
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
-import FolderButton from './components/AddFolderButton';
+import Folder from './components/Folder';
 import ShowFolder from './components/ShowFolder';
 // import { useFolder } from './hooks/useFolder';
-import { useParams , useRouteMatch} from 'react-router-dom';
 
 function App() {
   
@@ -40,13 +39,13 @@ function App() {
       <Route path="/:folderId" exact element = {<ShowNotes userId = {userDetails?.uid} />} />
         <Route path='/register' exact element={user && isLogin ? 
           <div>
-            <AddNotesButton userId = {userDetails?.uid}  />
-          <FolderButton userId = {userDetails?.uid} />
+            <AddNotes userId = {userDetails?.uid}  />
+          <Folder userId = {userDetails?.uid} />
           <ShowFolder userId = {userDetails?.uid}  />
         </div> : <SignInForm onLogin = {(props) => {setIsLogin(props)}} />} />
         <Route path='/' exact element={user && isLogin ? <div>
-          <AddNotesButton userId = {userDetails?.uid}  />
-          <FolderButton userId = {userDetails?.uid} />
+          <AddNotes userId = {userDetails?.uid}  />
+          <Folder userId = {userDetails?.uid} />
           <ShowFolder userId = {userDetails?.uid}  />
         </div> : <Login onLogin = {(props) => {setIsLogin(props)}}  />} /> 
       </Routes>

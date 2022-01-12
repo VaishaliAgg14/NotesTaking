@@ -18,7 +18,7 @@ function AddFolderButton(props) {
             <div className="text-center">
               <button
                 onClick={showFolderHandler}
-                className="p-2 pl-5 pr-5 transition-colors duration-700 transform bg-indigo-500 hover:bg-blue-400 text-gray-100 text-lg rounded-lg focus:border-4 border-indigo-300"
+                className="p-2 pl-5 pr-5 transition-colors duration-700 transform bg-indigo-500 hover:bg-blue-400 text-gray-100 text-xl rounded-lg focus:border-4 border-indigo-300"
               >
                 Add Folder
               </button>
